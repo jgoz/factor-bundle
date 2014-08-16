@@ -63,6 +63,8 @@ module.exports = function f (b, opts) {
 
             b.pipeline.get('pack').unshift(s);
 
+            if (needRecords) files = [];
+
             next();
         }));
 
