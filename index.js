@@ -24,13 +24,12 @@ module.exports = function f (b, opts) {
 
     var needRecords = !files.length;
 
+    opts.outputs = opts.outputs || opts.o;
     opts.objectMode = true;
     opts.raw = true;
     opts.rmap = {};
 
-    b.on('reset', function() {
-        addHooks();
-    });
+    b.on('reset', addHooks);
     addHooks();
 
     function addHooks() {
@@ -42,7 +41,7 @@ module.exports = function f (b, opts) {
         }, function(next) {
             var cwd = defined(opts.basedir, b._options.basedir, process.cwd());
             var fileMap = files.reduce(function (acc, x, ix) {
-                acc[path.resolve(cwd, x)] = opts.o[ix];
+                acc[path.resolve(cwd, x)] = opts.outputs[ix];
                 return acc;
             }, {});
 
