@@ -55,7 +55,8 @@ module.exports = function f (b, opts) {
 
             var s = createStream(files, opts);
             s.on('stream', function (bundle) {
-                var output = fileMap[bundle.file];
+                var outOrFn = fileMap[bundle.file];
+                var output = typeof outOrFn === 'function' ? outOrFn() : outOrFn;
                 var ws = isStream(output) ? output : fs.createWriteStream(output);
 
                 bundle.pipe(pack(packOpts)).pipe(ws);
